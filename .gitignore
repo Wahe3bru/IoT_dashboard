@@ -1,0 +1,6 @@
+client_secret.json
+sheets.googleapis.com-python.json
+
+*.DS_Store
+*.pyc
+__pycache__
