@@ -24,49 +24,29 @@ app.layout = html.Div(style={'backgroundColor': pallette['cream']}, children=[
              style={'textAlign': 'center'}),
 
     html.Div(className='Row', style={'justify-content': 'center'}, children=[
-        html.Div(className='card three columns',children=[
-            html.Div(className="card-header", style={'backgroundColor': pallette['orange']},children='Current Temperature Outside'),
+        html.Div(className='card three columns', children=[
+            html.Div(className="card-header", style={'backgroundColor': pallette['orange']}, children='Current Temperature Outside'),
             html.Div(className="card-main", children=[html.H1(
                 outside_df['temperature'].iloc[-1])]),
             html.Div(className="main-description", children='OpenWeatherMap')
         ]),
-        html.Div(className='card three columns', style={'backgroundColor': pallette['blue']},children=[
-            html.Div(className="card-header", children='Current Temperature Inside'),
+        html.Div(className='card three columns',children=[
+            html.Div(className="card-header", style={'backgroundColor': pallette['blue']}, children='Current Temperature Inside'),
             html.Div(className="card-main", children=[html.H1(
                 sensor_df['temperature'].iloc[-1])]),
             html.Div(className="main-description", children='DHT11 sensor')
         ]),
-        html.Div(className='card three columns', style={'backgroundColor': pallette['green']},children=[
-            html.Div(className="card-header", children='Logged today at:'),
+        html.Div(className='card three columns', children=[
+            html.Div(className="card-header", style={'backgroundColor': pallette['green']}, children='Logged today at:'),
             html.Div(className="card-main", children=[html.H1(
                 sensor_df['timestamp'].iloc[-1].split(' ')[1])]),
             html.Div(className="main-description", children=sensor_df['timestamp'].iloc[-1].split(' ')[0])
         ]),
     ]),
 
-    html.Div(children=[
-    html.Div(style={'backgroundColor': pallette['orange'], 'textAlign': 'center'},
-        children=[
-        html.H5(children='Current temperature outside'),
-        html.H3(children=outside_df['temperature'].iloc[-1],
-            style={'color': 'red'}),
-    ], className='four columns'),
-
-    html.Div(style={'backgroundColor': pallette['blue'], 'textAlign': 'center'},
-        children=[
-        html.H5(children='Current temperature indoors'),
-        html.H3(children=sensor_df['temperature'].iloc[-1],
-            style={'color': 'red'})
-    ], className='four columns'),
+    html.Div(className='row'),
 
 
-    html.Div(style={'backgroundColor': pallette['green'], 'textAlign': 'center'},
-        children=[
-        html.H5(children='Logged today at:'),
-        html.H3(children=sensor_df['timestamp'].iloc[-1].split(' ')[1],
-            style={'color': 'red'})
-    ], className='four columns'),
-    ], className='row'),
 
     html.Div([
         dcc.Graph(
@@ -93,6 +73,11 @@ app.layout = html.Div(style={'backgroundColor': pallette['cream']}, children=[
         )
     ],
     style={'className': 'nine columns'}),
+
+    dcc.Markdown('''#### Work In Progress
+        I need to learn basic CSS and how to incorporate bootstrap or other
+        frameworks to create functionally beautiful Dashboards.
+    ''', className='main-description'),
 
     html.Div([
         dcc.Graph(id='daily_temp',
