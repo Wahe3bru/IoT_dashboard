@@ -11,7 +11,7 @@ daily_stat_df = helper_dash.worksheet_as_df('daily_stats', '2019')
 
 # external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 # external_stylesheets = ['https://codepen.io/wahe3bru/pen/qvvewX.css']
-external_stylesheets = ['https://cdn.jsdelivr.net/npm/picnic@6.5.0/picnic.min.css',
+external_stylesheets = ['https://unpkg.com/picnic',
                         "https://fonts.googleapis.com/css?family=Permanent+Marker"]
 
 pallette = {'blue': '#1F77B4', 'orange': '#FF7F0E', 'green': '#44af69',
