@@ -1,10 +1,26 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
+import plotly.graph_objs as go
+import pandas as pd
+import helper_dash
+import datetime
 
 external_stylesheets = ["https://codepen.io/wahe3bru/pen/jJjwvB.css",
     'https://unpkg.com/picnic',
     "https://fonts.googleapis.com/css?family=Permanent+Marker"]
+
+# Data
+sensor_df = helper_dash.worksheet_as_df('IoT_env', 'Mar-2019')
+outside_df = helper_dash.worksheet_as_df('Outside_env', 'Mar-2019')
+
+now = datetime.datetime.now()
+# id='dcc-g1'
+dropdown_options = [{'label':'last 24 hours', 'value': (now - datetime.timedelta(hours=24))},
+                    {'label':'last 7 days', 'value': (now - datetime.timedelta(days=7))},
+                    {'label':'last 30 days', 'value': (now - datetime.timedelta(days=30))},
+                    {'label':'all logs', 'value': (now - datetime.timedelta(days=365))}]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -42,11 +58,48 @@ app.layout = html.Div(children=[
     html.Div(["text will change depending on mouse location"], className="box mouse-txt", id="mouse-txt"),
     html.Div(["alt-graph"], className="box h graph3", id="alt-graph"),
     html.Div(["text depends on alt-graph selected"], className="box alt-txt", id="alt-txt"),
-    html.Div(["dcc-g1"], className="box i graph1", id="dcc-g1"),
+    html.Div([
+        dcc.Dropdown(
+            id='dcc-g1',
+            options=dropdown_options,
+            value=(now - datetime.timedelta(hours=24))
+    ),
+    ], className="box i graph1"),
     html.Div(["dcc-g2"], className="box j graph2", id="dcc-g2"),
     html.Div(["dcc-g3"], className="box k graph3", id="dcc-g3"),
     html.Footer(["box footer"], className="box footer"),
 ], className="wrapper")
+
+@app.callback(
+    Output(component_id='daily-graph', component_property='children'),
+    [Input(component_id='dcc-g1', component_property='value')]
+)
+def update_output_div(input_value):
+    if input_value < sensor_df['timestamp'].min():
+        input_value = sensor_df['timestamp'].min()
+    filter_df_in = sensor_df[sensor_df['timestamp'] >= input_value]
+    filter_df_out = outside_df[outside_df['timestamp'] >= input_value]
+    return [dcc.Graph(
+        figure={
+            'data': [
+                go.Scatter(
+                    x=filter_df_in['timestamp'],
+                    y=filter_df_in['temperature'],
+                    mode='lines+markers',
+                    name='DHT sensor (lounge)'
+                ),
+                go.Scatter(
+                    x=filter_df_out['timestamp'],
+                    y=filter_df_out['temperature'],
+                    mode='lines+markers',
+                    name='Outside temperature'
+                ),
+            ],
+            'layout': go.Layout(
+                title='Temperature: outside vs inside',
+            )
+        }
+    )]
 
 if __name__ == '__main__':
     app.run_server(debug=True)
