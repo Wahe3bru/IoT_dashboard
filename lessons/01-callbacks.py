@@ -11,7 +11,6 @@ import datetime
 
 sensor_df = helper_dash.worksheet_as_df('IoT_env', 'Mar-2019')
 outside_df = helper_dash.worksheet_as_df('Outside_env', 'Mar-2019')
-daily_stat_df = helper_dash.worksheet_as_df('daily_stats', '2019')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -23,29 +22,14 @@ dropdown_options = [{'label':'last 24 hours', 'value': (now - datetime.timedelta
                     {'label':'all logs', 'value': (now - datetime.timedelta(days=365))}]
 
 today = datetime.datetime.strptime("2018-02-28 21:46", '%Y-%m-%d %H:%M')
-available_indicators = {"last 1": (today - datetime.timedelta(hours=24)),
-                        "last 7": (today - datetime.timedelta(days=7)),
-                        "last month": (today - datetime.timedelta(days=30)),
-                        "all logs": today}
 
 app.layout = html.Div([
-<<<<<<< HEAD
-    html.Div([
-        html.Div(id="my-div"),
-        dcc.Dropdown(
-            id='my-id',
-            options=[{'label': k, 'value': v} for i,(k, v) in enumerate(available_indicators.items())],
-            value= today
-        ),
-  ])
-=======
     dcc.Dropdown(
         id='dropdown',
         options=dropdown_options,
         value=(now - datetime.timedelta(hours=24))
 ),
     html.Div(id='my-div')
->>>>>>> c0c7812875d9563e0272070b7580cbafb1563462
 ])
 @app.callback(
     Output(component_id='my-div', component_property='children'),
