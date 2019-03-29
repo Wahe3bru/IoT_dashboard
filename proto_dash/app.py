@@ -19,7 +19,9 @@ app.layout = html.Div(children=[
         html.Div([
             html.Article(className="card", children=[
                 html.Div(className="", children=['Current Temperature Outside']),
-                html.Div(className="footer", children=["26"], style={'font-family': 'Permanent Marker', 'textAlign': 'center', 'font-size':'2.5em'}),
+                html.Div(className="footer", children=["26"],
+                    style={'font-family': 'Permanent Marker', 'textAlign': 'center', 'font-size':'2.5em'}
+                ),
                 html.Div(className="", children=['OpenWeatherMap']),
             ], style={'backgroundColor': 'black'})
         ]),
