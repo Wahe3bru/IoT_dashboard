@@ -16,6 +16,7 @@ sensor_df = helper_dash.worksheet_as_df('IoT_env', 'Mar-2019')
 outside_df = helper_dash.worksheet_as_df('Outside_env', 'Mar-2019')
 
 now = datetime.datetime.now()
+
 # id='dcc-g1'
 dropdown_options = [{'label':'last 24 hours', 'value': (now - datetime.timedelta(hours=24))},
                     {'label':'last 7 days', 'value': (now - datetime.timedelta(days=7))},
@@ -24,18 +25,19 @@ dropdown_options = [{'label':'last 24 hours', 'value': (now - datetime.timedelta
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
+######################### APP Layout ###########################################
 app.layout = html.Div(children=[
     html.Div(["logo"], className="box a", id="logo"),
     html.Div(["nav-bar"], className="box b", id="nav"),
-    html.Div(["kpi-home"], className="box c", id="kpi-home"),
 
+    html.Div(["kpi-home"], className="box c", id="kpi-home"),
     # 2 cards
     html.Div(
     children=[html.Div(className="flex two", children=[
         html.Div([
             html.Article(className="card", children=[
                 html.Div(className="", children=['Current Temperature Outside']),
-                html.Div(className="footer", children=["26"],
+                html.Div(className="footer", children=[outside_df['temperature'].iloc[-1]],
                     style={'font-family': 'Permanent Marker', 'textAlign': 'center', 'font-size':'2.5em'}
                 ),
                 html.Div(className="", children=['OpenWeatherMap']),
@@ -44,8 +46,8 @@ app.layout = html.Div(children=[
         html.Div([
             html.Article(className="card", children=[
                 html.Div(className="", children=['Logged today at:']),
-                html.Div(className="", children=['10:30'], style={'font-family': 'Permanent Marker', 'textAlign': 'center', 'font-size':'2.5em'}),
-                html.Div(className="footer", children=['28-03-2019']),
+                html.Div(className="footer", children=[sensor_df['timestamp'].iloc[-1].split(' ')[1]], style={'font-family': 'Permanent Marker', 'textAlign': 'center', 'font-size':'2.5em'}),
+                html.Div(className="", children=[sensor_df['timestamp'].iloc[-1].split(' ')[0]]),
             ], style={'backgroundColor': 'black'})
         ]),
     ]),
@@ -70,11 +72,13 @@ app.layout = html.Div(children=[
     html.Footer(["box footer"], className="box footer"),
 ], className="wrapper")
 
+######################### Updating #############################################
+
 @app.callback(
     Output(component_id='daily-graph', component_property='children'),
     [Input(component_id='dcc-g1', component_property='value')]
 )
-def update_output_div(input_value):
+def update_sensor_graph(input_value):
     if input_value < sensor_df['timestamp'].min():
         input_value = sensor_df['timestamp'].min()
     filter_df_in = sensor_df[sensor_df['timestamp'] >= input_value]
