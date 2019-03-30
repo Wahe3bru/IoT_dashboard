@@ -14,7 +14,7 @@ external_stylesheets = ["https://codepen.io/wahe3bru/pen/jJjwvB.css",
 # Data
 sensor_df = helper_dash.worksheet_as_df('IoT_env', 'Mar-2019')
 outside_df = helper_dash.worksheet_as_df('Outside_env', 'Mar-2019')
-
+daily_stat_df = helper_dash.worksheet_as_df('daily_stats', '2019')
 now = datetime.datetime.now()
 
 # id='dcc-g1'
@@ -56,7 +56,9 @@ app.layout = html.Div(children=[
     html.Div(["weather pic"], className="box pic", id="weather-pic"),
     html.Div(["dilly graph"], className="box e graph1", id="daily-graph"),
     html.Div(["Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."], className="box f", id="text"),
-    html.Div(["daily-stat"], className="box g graph2", id="daily-stat"),
+    html.Div([
+        'daily-stats graph'
+    ], className="box g graph2", id="daily-stat"),
     html.Div(["text will change depending on mouse location"], className="box mouse-txt", id="mouse-txt"),
     html.Div(["alt-graph"], className="box h graph3", id="alt-graph"),
     html.Div(["text depends on alt-graph selected"], className="box alt-txt", id="alt-txt"),
@@ -67,12 +69,18 @@ app.layout = html.Div(children=[
             value=(now - datetime.timedelta(hours=24))
     ),
     ], className="box i graph1"),
-    html.Div(["dcc-g2"], className="box j graph2", id="dcc-g2"),
+    html.Div([
+        dcc.Dropdown(
+            id="dcc-g2",
+            options=[{'label': i, 'value': i} for i in ['Temperature','Humidity']],
+            value='Temperature',
+        )
+    ], className="box j graph2 "),
     html.Div(["dcc-g3"], className="box k graph3", id="dcc-g3"),
     html.Footer(["box footer"], className="box footer"),
 ], className="wrapper")
 
-######################### Updating #############################################
+######################### Updating ############################################
 
 @app.callback(
     Output(component_id='daily-graph', component_property='children'),
@@ -105,6 +113,37 @@ def update_sensor_graph(input_value):
             )
         }
     )]
+
+
+@app.callback(
+    Output(component_id='daily-stat', component_property='children'),
+    [Input(component_id='dcc-g2', component_property='value')]
+)
+def update_stats_graph(input_value):
+    return [dcc.Graph(id='daily_temp',
+                figure={
+                    'data': [
+                        go.Scatter(
+                            x=daily_stat_df['Date'],
+                            y=daily_stat_df['{}-Mean'.format(input_value)],
+                            line = dict(
+                                # color = (pallette['green']),
+                                width = 6),
+                            error_y=dict(
+                                type='data',
+                                symmetric=False,
+                                array=daily_stat_df['{}-Max'.format(input_value)]-daily_stat_df['{}-Mean'.format(input_value)],
+                                arrayminus=daily_stat_df['{}-Mean'.format(input_value)]-daily_stat_df['{}-Min'.format(input_value)],
+                                thickness=4.5,
+                                width=6,
+                            )
+                        )
+                    ],
+                    'layout': go.Layout(
+                        title='Daily temperature stats',
+                        height=270
+                    )
+                })]
 
 if __name__ == '__main__':
     app.run_server(debug=True)
