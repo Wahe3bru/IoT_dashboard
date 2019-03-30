@@ -101,6 +101,7 @@ def update_sensor_graph(input_value):
             ],
             'layout': go.Layout(
                 title='Temperature: outside vs inside',
+                height=270,
             )
         }
     )]
