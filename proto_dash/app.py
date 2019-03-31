@@ -30,13 +30,32 @@ app.layout = html.Div(children=[
     html.Div(["logo"], className="box a", id="logo"),
     html.Div(["nav-bar"], className="box b", id="nav"),
 
-    html.Div(["kpi-home"], className="box c", id="kpi-home"),
+    html.Div([
+        html.Div(className="", children=[
+            html.Div([
+                html.Article(className="card", children=[
+                    html.Div(className="", children=['Temperature Inside']),
+                    html.Div(className="footer", children=[sensor_df['temperature'].iloc[-1]],
+                        style={'font-family': 'Permanent Marker', 'textAlign': 'center', 'font-size':'2.5em'}
+                    ),
+                    html.Div(className="", children=['DHT11 sensor']),
+                ], style={'backgroundColor': 'black'})
+            ]),
+            html.Div([
+                html.Article(className="card", children=[
+                    html.Div(className="", children=['Humidity Inside']),
+                    html.Div(className="footer", children=[sensor_df['humidity'].iloc[-1]], style={'font-family': 'Permanent Marker', 'textAlign': 'center', 'font-size':'2.5em'}),
+                    html.Div(className="", children=['DHT11 sensor']),
+                ], style={'backgroundColor': 'black'})
+            ]),
+        ]),
+    ], className="box c", id="kpi-home"),
     # 2 cards
     html.Div(
     children=[html.Div(className="flex two", children=[
         html.Div([
             html.Article(className="card", children=[
-                html.Div(className="", children=['Current Temperature Outside']),
+                html.Div(className="", children=['Temperature Outside']),
                 html.Div(className="footer", children=[outside_df['temperature'].iloc[-1]],
                     style={'font-family': 'Permanent Marker', 'textAlign': 'center', 'font-size':'2.5em'}
                 ),
