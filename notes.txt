@@ -1,2 +1,22 @@
 env:
     activate source dash-board
+
+[Git Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
+    git checkout master
+    git fetch origin
+    git reset --hard origin/master
+
+This switches the repo to the master branch, pulls the latest commits and
+ resets the repo's local copy of master to match the latest version.
+
+    git checkout -b new-feature
+checks out a branch called new-feature based on master, and the -b flag tells
+ Git to create the branch if it doesn’t already exist.
+
+    git push -u origin new-feature
+pushes new-feature to the central repository (origin), and the -u flag adds it
+ as a remote tracking branch. After setting up the tracking branch, git push
+ can be invoked without any parameters to automatically push the new-feature
+ branch to the central repository
+
+ Then pull request to master
