@@ -28,17 +28,44 @@ def open_worksheet(spreadsheet_name, worksheet_title):
 
 
 def worksheet_as_df(spreadsheet_name, worksheet_title):
+    """Return a Pandas DataFrame of the given worksheet in the given
+    spreadsheet.
+
+    Args:
+        spreadsheet_name (str): the name of the spreadsheet.
+        worksheet_title (str):  the title of the worksheet.
+    Return:
+        df (pd.DataFrame): a Pandas DataFrame of the worksheet.
+
+    """
     wks = open_worksheet(spreadsheet_name, worksheet_title)
     df = wks.get_as_df()
     return df
 
 def get_worksheet_titles(spreadsheet_name):
+    """ returns a list of worrksheet titles in spreadsheet
+
+    Args:
+        spreadsheet_name (str): name of spreadsheet
+    Return:
+        list of worksheet titles
+
+    """
     sh = client.open(spreadsheet_name)
     worksheet_titles = sh.worksheets()
     return [str(title).split("'")[1] for title in worksheet_titles]
 
 def get_all_worksheets_as_df(spreadsheet_name):
+    """ Using get_worksheet_titles method, returns all the data in the
+     worksheets in one DataFrame.
 
+    Args:
+        spreadsheet_name (str): name of spreadsheet.
+    Return:
+        all_df (pd.DataFrame): Pandas DataFrame of all the worksheets in the
+                               spreadsheet.
+                               
+    """
     worksheets = get_worksheet_titles(spreadsheet_name)
 
     all_df = pd.DataFrame()
