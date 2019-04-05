@@ -12,16 +12,20 @@ external_stylesheets = ["https://codepen.io/wahe3bru/pen/jJjwvB.css",
     "https://fonts.googleapis.com/css?family=Permanent+Marker"]
 
 # Data
-sensor_df = helper_dash.worksheet_as_df('IoT_env', 'Mar-2019')
-outside_df = helper_dash.worksheet_as_df('Outside_env', 'Mar-2019')
+sensor_df = helper_dash.get_all_worksheets_as_df('IoT_env')
+outside_df = helper_dash.get_all_worksheets_as_df('Outside_env')
 daily_stat_df = helper_dash.worksheet_as_df('daily_stats', '2019')
 now = datetime.datetime.now()
 
 # id='dcc-g1'
-dropdown_options = [{'label':'last 24 hours', 'value': (now - datetime.timedelta(hours=24))},
-                    {'label':'last 7 days', 'value': (now - datetime.timedelta(days=7))},
-                    {'label':'last 30 days', 'value': (now - datetime.timedelta(days=30))},
-                    {'label':'all logs', 'value': (now - datetime.timedelta(days=365))}]
+dropdown_options = [{'label':'last 24 hours',
+                     'value': (now - datetime.timedelta(hours=24))},
+                    {'label':'last 7 days',
+                     'value': (now - datetime.timedelta(days=7))},
+                    {'label':'last 30 days',
+                     'value': (now - datetime.timedelta(days=30))},
+                    {'label':'all logs',
+                     'value': (now - datetime.timedelta(days=365))}]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
