@@ -7,7 +7,7 @@ import pandas as pd
 import helper_dash
 import datetime
 
-external_stylesheets = ["https://codepen.io/wahe3bru/pen/jJjwvB.css",
+external_stylesheets = [
     'https://unpkg.com/picnic',
     "https://fonts.googleapis.com/css?family=Permanent+Marker"]
 

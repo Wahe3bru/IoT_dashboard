@@ -1,0 +1,132 @@
+body {
+  margin: 40px;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  /*grid-template-rows: 0.33fr 0.66fr 0.33fr 1fr 0.33fr 1fr 0.33fr 0.66fr 0.33fr;*/
+  grid-template-rows: 100px 200px 100px 300px 100px 300px 100px 200px 100px;
+  grid-gap: 10px;
+  background-color: #fff;
+  color: #444;
+}
+
+.box {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+}
+.half-opacity {
+  opacity:0.5;
+}
+.graph1 {
+  background-color: green;
+}
+.graph2 {
+  background-color: pink;
+}
+.graph3 {
+  background-color: blue;
+}
+.a {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 1;
+		grid-row-end: 2;
+	}
+	.b {
+		grid-column-start: 3;
+		grid-column-end: -1;
+		grid-row-start: 1;
+		grid-row-end: 2;
+	}
+	.c {
+    display: grid;
+		grid-column-start: 1;
+		grid-column-end: 1;
+		grid-row-start: 2;
+		grid-row-end: 5;
+	}
+	.d {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+		grid-column-start: 2;
+		grid-column-end: 4;
+		grid-row-start: 2;
+		grid-row-end: 4;
+	}
+	.e {
+		grid-column-start: 2;
+		grid-column-end: 5;
+		grid-row-start: 4;
+		grid-row-end: 5;
+	}
+	.f {
+		grid-column-start: 4;
+		grid-column-end: 4;
+		grid-row-start: 5;
+		grid-row-end: -1;
+	}
+.g {
+		grid-column-start: 1;
+		grid-column-end: 4;
+		grid-row-start: 6;
+		grid-row-end: 7;
+	}
+.h {
+		grid-column-start: 2;
+		grid-column-end: 4;
+		grid-row-start: 8;
+		grid-row-end: -1;
+	}
+.i {
+		grid-column-start: 4;
+		grid-column-end: 5;
+		grid-row-start: 3;
+		grid-row-end: 4;
+	}
+.j {
+		grid-column-start: 3;
+		grid-column-end: 4;
+		grid-row-start: 5;
+		grid-row-end: 5;
+	}
+.k {
+		grid-column-start: 1;
+		grid-column-end: 1;
+		grid-row-start: 7;
+		grid-row-end: 9;
+	}
+.footer {
+		grid-column-start: 1;
+		grid-column-end: 4;
+		grid-row-start: 10;
+		grid-row-end: 10;
+    background-color: grey;
+	}
+  .pic {
+  		grid-column-start: 4;
+  		grid-column-end: 4;
+  		grid-row-start: 2;
+  		grid-row-end: 2;
+      background-color: purple;
+  	}
+.mouse-txt {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 5;
+  grid-row-end: 5;
+  background-color: red;
+}
+.alt-txt {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 7;
+  grid-row-end: 7;
+  background-color: red;
+}
